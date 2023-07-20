@@ -4,12 +4,12 @@
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.firebaseApiKey || "AIzaSyDRp5S1cW7UshcJGZk02hCTzmS727fJQxs",
-  authDomain: "rump-cc746.firebaseapp.com",
-  projectId: "rump-cc746",
-  storageBucket: "rump-cc746.appspot.com",
-  messagingSenderId: "999254766264",
-  appId: "1:999254766264:web:e2f5f5a83c7315fb6f3a4d"
+  apiKey: "AIzaSyDoYh1UIn3vPxtIi5RrgtW4kI7p8cCA4wc",
+  authDomain: "rump-sandbox.firebaseapp.com",
+  projectId: "rump-sandbox",
+  storageBucket: "rump-sandbox.appspot.com",
+  messagingSenderId: "109849380730",
+  appId: "1:109849380730:web:a6e59936cf42a383c238c3"
 };
 
 export default firebaseConfig;
