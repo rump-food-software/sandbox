@@ -4,6 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
+    "site": "rump-sandbox",
     "public": "build",
     "ignore": [
       "firebase.json",
