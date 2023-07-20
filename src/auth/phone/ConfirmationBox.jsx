@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ConfirmationBox = ({ currentConfirmationResult, phone, onSignIn }) => {
+const ConfirmationBox = ({ currentConfirmationResult, phone }) => {
   const [code, setCode] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const onCodeChange = (e) => {
@@ -13,7 +13,6 @@ const ConfirmationBox = ({ currentConfirmationResult, phone, onSignIn }) => {
       // User signed in successfully.
       //const user = result.user;
       setErrorMessage()
-      onSignIn();
       // ...
     }).catch((error) => {
       // User couldn't sign in (bad verification code?)
