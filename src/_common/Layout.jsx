@@ -1,16 +1,14 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import AuthUserContextProvider from '../auth/AuthUserContextProvider'
 import FirebaseContextProvider from '../firebase/FirebaseContextProvider'
-import UserBadge from './UserBadge'
+import Header from './Header'
 
 const Layout = () => {
   return (
     <FirebaseContextProvider>
       <AuthUserContextProvider>
-        <UserBadge />
-        <Link to="/">Home</Link>
-        <h1>rump</h1>
+        <Header />
         <Outlet />
       </AuthUserContextProvider>
     </FirebaseContextProvider>)

@@ -1,9 +1,9 @@
-import React from 'react'
 import { getAuth, signOut } from "firebase/auth";
+import React, { useState } from 'react';
 
 const LogoutButton = () => {
   const auth = getAuth();
-
+  const [showConfirm, setShowConfirm] = useState();
   const signOutEvent = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
@@ -12,10 +12,20 @@ const LogoutButton = () => {
       // An error happened.
     });
   }
+  const logoutClick = e => {
+    setShowConfirm(true)
+  }
   return (
-    <div>
-      <button onClick={signOutEvent}>logout</button>
-    </div>
+    <>
+      {!showConfirm &&
+        <span style={{ cursor: "pointer" }} onClick={logoutClick}>logout</span>
+      }
+      {showConfirm &&
+        <span style={{ cursor: "pointer" }} onClick={signOutEvent}>confirm?</span>
+      }
+
+    </>
+
   )
 }
 
