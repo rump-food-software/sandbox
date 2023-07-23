@@ -1,4 +1,4 @@
-#rump sandbox
+# rump sandbox
 
 [Here's the thing on firebase](https://rump-sandbox.web.app/)
 
