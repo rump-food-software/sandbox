@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ConfirmationBox = ({ currentConfirmationResult, phone }) => {
   const [code, setCode] = useState();
   const [errorMessage, setErrorMessage] = useState();
+  const navigate = useNavigate()
   const onCodeChange = (e) => {
     setCode(e.target.value);
 
@@ -12,7 +14,8 @@ const ConfirmationBox = ({ currentConfirmationResult, phone }) => {
     currentConfirmationResult.confirm(code).then((result) => {
       // User signed in successfully.
       //const user = result.user;
-      setErrorMessage()
+      setErrorMessage();
+      navigate("/");
       // ...
     }).catch((error) => {
       // User couldn't sign in (bad verification code?)
