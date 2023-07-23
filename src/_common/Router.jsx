@@ -6,6 +6,8 @@ import Pages from '../pages/Pages';
 import DatabaseDemo from '../pages/databaseDemo/DatabaseDemo';
 import Home from './Home';
 import Layout from './Layout';
+import NewPage from '../pages/NewPage';
+import Page from '../pages/Page';
 
 const Router = () => {
   return (
@@ -15,8 +17,10 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<PhoneSignIn />} />
           <Route path="/pages" element={<Pages />} />
+          <Route path="/pages/new" element={<NewPage />} />
           <Route path="/pages/DatabaseDemo" element={<DatabaseDemo />} />
           <Route path="/pages/MuiDemo" element={<MuiDemo />} />
+          <Route path="/pages/:name" element={<Page />} />
         </Route>
       </Routes>
     </BrowserRouter>
