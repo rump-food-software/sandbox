@@ -21,6 +21,12 @@ const api = (db, collectionString) => {
     return firebase.doc(db, collectionString, id);
   }
 
+  const getDocuments = async () => {
+    const q = query(getCollection());
+    const snapshot = await getDocs(q);
+    return snapshot.docs;
+  }
+
   const getDocsSub = (callback) => {
     const q = query(getCollection());
     const unsub = onSnapshot(q, snapshot => {
@@ -75,13 +81,11 @@ const api = (db, collectionString) => {
   }
 
   const getDocsForCurrentUserSub = (user, callback) => {
-
     const q = query(getCollection(), where("createdBy", "==", user.uid));
     const unsub = onSnapshot(q, (querySnapshot) => {
       callback(querySnapshot.docs);
     });
     return unsub;
-
   }
 
   const confirmAddress = async (inputValue) => {
@@ -162,6 +166,7 @@ const api = (db, collectionString) => {
     set,
     deleteDocument,
     getByIdSub,
+    getDocuments,
     getDocsSub,
     getDocsForCurrentUserSub,
     updateDoc,
