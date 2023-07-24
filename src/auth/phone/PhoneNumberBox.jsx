@@ -1,8 +1,12 @@
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import api from '../../database/api.js';
+import { FirebaseContext } from '../../firebase/FirebaseContextProvider';
 
 const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
   const captchaContainerRef = useRef();
+  const { db } = useContext(FirebaseContext)
+  const adminApi = api(db, 'admin');
   const [phoneNumber, setPhoneNumber] = useState();
 
   const [errorMessage, setErrorMessage] = useState();
@@ -20,6 +24,14 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
   const onPhoneChange = (e) => {
     setPhoneNumber(e.target.value)
   }
+  const checkUser = async (phone) => {
+    const adminDoc = await adminApi.getDocuments();
+    if (adminDoc.length < 0)
+      return false;
+    const allowedUsers = adminDoc[0].data().allowedUsers;
+    if (allowedUsers.indexOf(phone) > -1) { return true }
+    else return false;
+  }
   const onSend = async (e) => {
     e.preventDefault()
     const appVerifier = window.recaptchaVerifier;
@@ -27,22 +39,22 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
 
     }
     const usNumber = `+1${phoneNumber}`;
-    
-    signInWithPhoneNumber(auth, usNumber, appVerifier)
-      .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
+    const userIsAuthorized = await checkUser(usNumber)
+    if (!userIsAuthorized)
+      setErrorMessage(`user ${usNumber} is not authorized`)
+    else {
+      setErrorMessage("");
+      try {
+        const confirmationResult = await signInWithPhoneNumber(auth, usNumber, appVerifier);
         window.confirmationResult = confirmationResult;
         setErrorMessage("")
         setPhone(phoneNumber);
         setCurrentConfirmationResult(confirmationResult);
-        // ...
-      }).catch((error) => {
-        // Error; SMS not sent
-        // ...
+      }
+      catch (error) {
         setErrorMessage(error.message)
-      });
-
+      }
+    }
   }
   return (
     <form onSubmit={onSend}>
