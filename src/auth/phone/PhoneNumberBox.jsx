@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import api from '../../database/api.js';
@@ -7,7 +8,10 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
   const captchaContainerRef = useRef();
   const { db } = useContext(FirebaseContext)
   const adminApi = api(db, 'admin');
+  const accessRequestsApi = api(db, 'accessRequests');
   const [phoneNumber, setPhoneNumber] = useState();
+  const [confirmedPhoneNumber, setConfirmedPhoneNumber] = useState();
+  const [showRequestButton, setShowRequestButton] = useState();
 
   const [errorMessage, setErrorMessage] = useState();
   const auth = getAuth();
@@ -39,9 +43,12 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
 
     }
     const usNumber = `+1${phoneNumber}`;
+    setConfirmedPhoneNumber(usNumber);
     const userIsAuthorized = await checkUser(usNumber)
-    if (!userIsAuthorized)
+    if (!userIsAuthorized) {
+      setShowRequestButton(true);
       setErrorMessage(`user ${usNumber} is not authorized`)
+    }
     else {
       setErrorMessage("");
       try {
@@ -56,11 +63,22 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
       }
     }
   }
+  const [accessRequestSent, setAccessRequestSent] = useState();
+  const onRequestClick = () => {
+    accessRequestsApi.createDoc({ phoneNumber: confirmedPhoneNumber })
+    setAccessRequestSent(true);
+  }
   return (
     <form onSubmit={onSend}>
       <input onChange={onPhoneChange} placeholder="phone"></input>
       <button type="submit">send</button>
       <p>{errorMessage}</p>
+      {showRequestButton &&
+        <div>
+          <Button onClick={onRequestClick}>request access</Button>
+          {accessRequestSent && <p>access request sent!</p>}
+        </div>
+      }
       <div ref={captchaContainerRef}></div>
     </form>)
 }
