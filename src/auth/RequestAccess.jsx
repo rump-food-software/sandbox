@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import api from '../database/api';
 import { FirebaseContext } from '../firebase/FirebaseContextProvider';
 
-const RequestAccess = (phoneNumber) => {
+const RequestAccess = ({ phoneNumber }) => {
   const { db } = useContext(FirebaseContext)
   const accessRequestsApi = api(db, 'accessRequests');
 

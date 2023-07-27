@@ -1,13 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Admin from '../admin/Admin';
 import PhoneSignIn from '../auth/phone/PhoneSignIn';
 import MuiDemo from '../pages/MuiDemo';
+import NewPage from '../pages/NewPage';
+import Page from '../pages/Page';
 import Pages from '../pages/Pages';
 import DatabaseDemo from '../pages/databaseDemo/DatabaseDemo';
 import Home from './Home';
 import Layout from './Layout';
-import NewPage from '../pages/NewPage';
-import Page from '../pages/Page';
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
           <Route path="/pages/DatabaseDemo" element={<DatabaseDemo />} />
           <Route path="/pages/MuiDemo" element={<MuiDemo />} />
           <Route path="/pages/:name" element={<Page />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>
