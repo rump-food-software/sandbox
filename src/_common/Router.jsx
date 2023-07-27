@@ -8,6 +8,7 @@ import Home from './Home';
 import Layout from './Layout';
 import NewPage from '../pages/NewPage';
 import Page from '../pages/Page';
+import ScoobyDoo from '../pages/ScoobyDoo';
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
           <Route path="/pages/DatabaseDemo" element={<DatabaseDemo />} />
           <Route path="/pages/MuiDemo" element={<MuiDemo />} />
           <Route path="/pages/:name" element={<Page />} />
+          <Route path="/pages/scooby-doo" element={<ScoobyDoo />} />
         </Route>
       </Routes>
     </BrowserRouter>
