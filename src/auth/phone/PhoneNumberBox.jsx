@@ -8,6 +8,7 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
   const captchaContainerRef = useRef();
   const { db } = useContext(FirebaseContext)
   const adminApi = api(db, 'admin');
+  const allowedUsersApi = api(db, "allowedUsers");
   const [phoneNumber, setPhoneNumber] = useState();
   const [confirmedPhoneNumber, setConfirmedPhoneNumber] = useState();
   const [showRequestButton, setShowRequestButton] = useState();
@@ -35,6 +36,13 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
     if (allowedUsers.indexOf(phone) > -1) { return true }
     else return false;
   }
+  const checkUserAllowed = async (phone) => {
+    const allowedDoc = await allowedUsersApi.getDocsByField("phoneNumber", phone);
+    if (allowedDoc.length > 0)
+      return true
+
+    return false;
+  }
   const onSend = async (e) => {
     e.preventDefault()
     const appVerifier = window.recaptchaVerifier;
@@ -44,7 +52,8 @@ const PhoneNumberBox = ({ setCurrentConfirmationResult, setPhone }) => {
     const usNumber = `+1${phoneNumber}`;
     setConfirmedPhoneNumber(usNumber);
     const userIsAuthorized = await checkUser(usNumber)
-    if (!userIsAuthorized) {
+    const userIsAllowed = await checkUserAllowed(usNumber)
+    if (!userIsAuthorized || !userIsAllowed) {
       setShowRequestButton(true);
       setErrorMessage(`user ${usNumber} is not authorized`)
     }
