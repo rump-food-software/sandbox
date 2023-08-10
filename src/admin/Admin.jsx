@@ -1,27 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Spinner from '../_utils/Spinner';
+import { AuthUserContext } from '../auth/AuthUserContextProvider';
 import api from '../database/api';
 import { FirebaseContext } from '../firebase/FirebaseContextProvider';
 import AccessRequests from './AccessRequests';
+import AllowedUsers from './AllowedUsers';
 
 const Admin = () => {
+  const [isAdmin, setIsAdmin] = useState()
+  const user = useContext(AuthUserContext);
   const { db } = useContext(FirebaseContext);
-  const adminApi = api(db, "admin")
-  const [adminData, setAdminData] = useState();
+
+  const adminUsersApi = api(db, "adminUsers");
   useEffect(() => {
-    adminApi.getDocsByFieldSub("isActive", true, (data) => {
-      if (data && data.length > 0)
-        setAdminData(data[0]);
-    })
-  }, [adminApi])
-  if (!adminData) return <Spinner />
-  const { allowedUsers } = adminData.data()
+    const eff = async () => {
+      if (user) {
+        const adminDocs = await adminUsersApi.getDocsByField("phoneNumber", user.phoneNumber);
+        if (adminDocs && adminDocs.length > 0) {
+          const { isActive } = adminDocs[0].data();
+          setIsAdmin(isActive)
+        }
+      }
+      else {
+        setIsAdmin(false);
+      }
+    }
+    eff();
+  }, [adminUsersApi, user])
+  if (!isAdmin) {
+    return (<div>you don't even go here</div>);
+  }
   return (
     <div>
-      <div>allowed users</div>
-      {adminData && <div>{allowedUsers.map((a, i) => {
-        return <div key={i}>{a}</div>
-      })}</div>}
+      <AllowedUsers />
       <AccessRequests />
     </div>
   )

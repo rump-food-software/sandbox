@@ -8,21 +8,25 @@ export const AuthUserContext = createContext();
 
 const AuthUserContextProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState();
+  const [userLoaded, setUserLoaded] = useState();
   const { auth } = useContext(FirebaseContext);
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       if (user) {
         setLoggedInUser(user);
+        setUserLoaded(true);
       }
-      else { setLoggedInUser(null) }
+      else {
+        setLoggedInUser(null);
+        setUserLoaded(true);
+      }
     })
   }, [auth])
-if(!auth) return <Spinner />
+  if (!auth || !userLoaded) return <Spinner />
 
   return (
     <AuthUserContext.Provider value={loggedInUser}>
       {children}
-      
       <div id='recaptcha-container'></div>
     </AuthUserContext.Provider>
   )
