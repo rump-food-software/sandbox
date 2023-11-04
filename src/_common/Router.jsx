@@ -9,6 +9,7 @@ import Pages from '../pages/Pages';
 import DatabaseDemo from '../pages/databaseDemo/DatabaseDemo';
 import Home from './Home';
 import Layout from './Layout';
+import CsvVisualize from '../pages/CsvVisualize';
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
           <Route path="/pages/new" element={<NewPage />} />
           <Route path="/pages/DatabaseDemo" element={<DatabaseDemo />} />
           <Route path="/pages/MuiDemo" element={<MuiDemo />} />
+          <Route path="/pages/csv-visualize" element={<CsvVisualize />} />
           <Route path="/pages/:name" element={<Page />} />
           <Route path="/admin" element={<Admin />} />
         </Route>
