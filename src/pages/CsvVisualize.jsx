@@ -41,7 +41,7 @@ const CsvVisualize = () => {
     const rowObj = { id: 1 };
     fileFields.map(f => {
       const sum = getTotalForRow(arr, f);
-      rowObj[f] = sum
+      return rowObj[f] = sum
     })
     return rowObj;
   }
