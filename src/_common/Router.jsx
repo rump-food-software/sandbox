@@ -9,7 +9,7 @@ import Pages from '../pages/Pages';
 import DatabaseDemo from '../pages/databaseDemo/DatabaseDemo';
 import Home from './Home';
 import Layout from './Layout';
-import CsvVisualize from '../pages/CsvVisualize';
+import CsvVisualize from '../pages/csvVisualize/CsvVisualize';
 
 const Router = () => {
   return (
