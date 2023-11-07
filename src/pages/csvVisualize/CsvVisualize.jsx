@@ -39,7 +39,7 @@ const CsvVisualize = () => {
 
       const timeFilteredRows = rows.filter(r => {
         const rowDate = new Date(r["Timestamp Date"]);
-        return minDate < rowDate && rowDate < maxDate
+        return minDate <= rowDate && rowDate <= maxDate
       })
 
 
