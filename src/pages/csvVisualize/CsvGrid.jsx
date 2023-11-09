@@ -9,15 +9,7 @@ const CsvGrid = ({ filteredRows, columns }) => {
           <DataGrid
             rows={filteredRows}
             columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
           />
-          <span>totals</span>
         </div>
       }
     </div>
