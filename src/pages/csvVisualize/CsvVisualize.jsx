@@ -6,6 +6,7 @@ import AggregateGrid from './AggregateGrid';
 import CsvGrid from './CsvGrid';
 import DateTimeFilter from './DateTimeFilter';
 import FieldFilter from './FieldFilter';
+import RouteLookups from './RouteLookups';
 
 const getTotalsRow = (arr, fileFields) => {
   const rowObj = { id: 1 };
@@ -30,6 +31,7 @@ const CsvVisualize = () => {
   const [filteredRows, setFilteredRows] = useState();
   const [totalsRows, setTotalsRows] = useState();
   const [selectedFilter, setSelectedFilter] = useState();
+  const [showRouteLookups, setShowRouteLookups] = useState();
 
   const [minDate, setMinDate] = useState(new Date("2000/01/01"));
   const [maxDate, setMaxDate] = useState(new Date());
@@ -93,13 +95,24 @@ const CsvVisualize = () => {
       {isFilePicked && <span>👍</span>}
       <Button onClick={handleSubmission}>Submit</Button>
       <hr />
-      {fileFields &&
-        <DateTimeFilter setMinDate={setMinDate} setMaxDate={setMaxDate} />
-      }
-      <FieldFilter rows={rows} fileFields={fileFields} setSelectedFilter={setSelectedFilter} />
-      <AggregateGrid filteredRows={filteredRows} totalsRows={totalsRows} columns={columns} />
+      {rows && fileFields &&
+        <span>
+          <Button onClick={() => setShowRouteLookups(!showRouteLookups)}>{showRouteLookups ? `all data` : `route lookups`}</Button>
+          {!showRouteLookups &&
+            <span>
+              <DateTimeFilter setMinDate={setMinDate} setMaxDate={setMaxDate} />
 
-      <CsvGrid filteredRows={filteredRows} columns={columns} />
+              <FieldFilter rows={rows} fileFields={fileFields} setSelectedFilter={setSelectedFilter} />
+              <AggregateGrid filteredRows={filteredRows} totalsRows={totalsRows} columns={columns} />
+
+              <CsvGrid filteredRows={filteredRows} columns={columns} />
+            </span>
+          }
+          {
+            showRouteLookups && <RouteLookups rows={rows} fileFields={fileFields} columns={columns} />
+          }
+        </span>
+      }
       {isLoading && <Spinner />}
     </div>
   )
